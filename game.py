@@ -1,5 +1,26 @@
 import os
 
+def comp(count):
+    global board, sumbols
+
+    computer = sumbols[count % 2]
+    player = sumbols[(count - 1) % 2]
+
+    for string in range(3):
+        for column in range(3):
+            if board[string][column] == " ":
+                board[string][column] = computer
+                if win() == computer:
+                    return
+                board[string][column] = " "
+
+    for string in range(3):
+        for column in range(3):
+            if board[string][column] == " ":
+                board[string][column] = computer
+                return
+
+
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -53,9 +74,14 @@ sumbols = ['x', 'o']
 while game == "да":
     start()
     while win() is None:
-        player(sumbols[count % 2])
-        clear()
-        count += 1
+        if count % 2 == 0:
+            player(sumbols[count % 2])
+            clear()
+            count += 1
+        else:
+            comp(count)
+            clear()
+            count += 1
     print_game('')
     if win() == "Ничья!":
         print(win())
