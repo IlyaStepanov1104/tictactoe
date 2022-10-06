@@ -31,7 +31,6 @@ def comp(count):
                 board[string][column] = computer
                 return
 
-
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -71,7 +70,7 @@ def win():
 def player(sumbol):
     global board
     print_game('n')
-    point = int(input("Напишите номер ячейки: ").strip()) - 1
+    point = int(input("Ходит игрок: " + sumbol + "\nНапишите номер ячейки: ").strip()) - 1
     if 0 > point or point > 8 or board[point//3][point%3] in ['x', 'o']:
         print("ERROR! Please, try again!")
         player(sumbol)
@@ -82,20 +81,25 @@ board = list()
 game = "да"
 count = 0
 sumbols = ['x', 'o']
+num_players = 0
 while game == "да":
     start()
-    while win() is None:
-        if count % 2 == 0:
-            player(sumbols[count % 2])
-            clear()
-            count += 1
+    num_players = int(input("Сколько игроков будет играть? (1 или 2): "))
+    if num_players == 1 or num_players == 2:
+        while win() is None:
+            if num_players == 2 or (num_players == 1 and count % 2 == 0):
+                player(sumbols[count % 2])
+                clear()
+                count += 1
+            else:
+                comp(count)
+                clear()
+                count += 1
+        print_game('')
+        if win() == "Ничья!":
+            print(win())
         else:
-            comp(count)
-            clear()
-            count += 1
-    print_game('')
-    if win() == "Ничья!":
-        print(win())
+            print("Победил игрок: " + win() + "!")
     else:
-        print("Победил игрок: " + win() + "!")
+        print("ERROR! Please, try again!")
     game = input("Ещё раз? ").strip().lower()
