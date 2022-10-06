@@ -21,6 +21,10 @@ def comp(count):
         board[turn[0]][turn[1]] = computer
         return
 
+    if board[1][1] == " ":
+        board[1][1] = computer
+        return
+
     for string in range(3):
         for column in range(3):
             if board[string][column] == " ":
