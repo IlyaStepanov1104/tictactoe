@@ -3,6 +3,7 @@ import os
 def comp(count):
     global board, sumbols
 
+    turn = []
     computer = sumbols[count % 2]
     player = sumbols[(count - 1) % 2]
 
@@ -12,7 +13,13 @@ def comp(count):
                 board[string][column] = computer
                 if win() == computer:
                     return
+                board[string][column] = player
+                if win() == player:
+                    turn = [string, column]
                 board[string][column] = " "
+    if len(turn) == 2:
+        board[turn[0]][turn[1]] = computer
+        return
 
     for string in range(3):
         for column in range(3):
